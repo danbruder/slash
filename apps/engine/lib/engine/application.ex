@@ -4,15 +4,13 @@ defmodule Engine.Application do
   @moduledoc false
 
   use Application
-  def foo do
-    IO.puts "foo called"
-  end
 
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
       # Starts a worker by calling: Engine.Worker.start_link(arg)
-      Engine.Weather
+      Engine.Server,
+      Engine.WidgetSupervisor
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

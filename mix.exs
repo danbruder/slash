@@ -5,7 +5,7 @@ defmodule Slash.MixProject do
     [
       apps_path: "apps",
       start_permanent: Mix.env() == :prod,
-      test_coverage: [tool: Coverex.Task],
+      test_coverage: [tool: Coverex.Task, console_log: true],
       deps: deps()
     ]
   end

@@ -1,37 +1,42 @@
 defmodule Engine.Weather do
   use GenServer
 
-  def start_link(_args) do
-    GenServer.start_link(__MODULE__, %{}, name: __MODULE__)
-  end
-
-  def init(args) do
+  def init(location) do
     Process.send_after(self(), :fetch_weather, 1)
 
     {:ok,
      %{
-       conditions: %{}
+       conditions: %{},
+       location: location
      }}
+  end
+
+  def start_link([], location) do
+    start_link(location)
+  end
+
+  def start_link({country, state, city} = location) do
+    GenServer.start_link(__MODULE__, location, name: {:global, "weather:#{state}#{city}"})
   end
 
   # 
   # Client
   # 
-  def get_weather() do
-    GenServer.call(__MODULE__, :get_weather)
+  def get(pid) do
+    GenServer.call(pid, :get)
   end
 
   # 
   # Server
   #
-  def handle_info(:fetch_weather, state) do
-    conditions =  Wunderground.conditions({:us, "MI", "Jamestown"})
+  def handle_info(:fetch_weather, %{location:  location} = state) do
+    conditions =  Wunderground.conditions(location)
     # Get again in 5 minutes
     Process.send_after(self(), :fetch_weather, 1000 * 60 * 5)
-    {:noreply, %{conditions: conditions}}
+    {:noreply, Map.put(state, :conditions,  conditions)}
   end
 
-  def handle_call(:get_weather, _from, %{conditions: conditions} = state) do
-    {:reply, conditions, state}
+  def handle_call(:get, _from, state) do
+    {:reply, {:ok, state}, state}
   end
 end
