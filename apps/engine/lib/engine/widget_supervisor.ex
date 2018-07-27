@@ -10,11 +10,7 @@ defmodule Engine.WidgetSupervisor do
   end
 
   # Start a widget process and add it to supervision
-  def add_weather(location) do
-    # Note that start_child now directly takes in a child_spec.
-    child_spec = {Engine.Weather, location}
-    # Equivalent to:
-    # child_spec = widget.child_spec({widget_name, game_id})
+  def add_widget(child_spec) do
     DynamicSupervisor.start_child(__MODULE__, child_spec)
   end
 

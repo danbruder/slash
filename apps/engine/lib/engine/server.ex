@@ -12,17 +12,16 @@ defmodule Engine.Server do
   end
 
   # Client
-
-  def add_weather(args) do
-    GenServer.call(__MODULE__, {:add_weather, args})
+  def add_weather({country, state, city} = location) do
+    spec = {Engine.Weather, location}
+    GenServer.call(__MODULE__, {:add_widget, spec})
   end
 
   #####
   # Server
   ####
-  def handle_call({:add_weather, args}, _from, state) do
-     # Now we replace this with supervised management
-    start_status = Engine.WidgetSupervisor.add_weather(args)
+  def handle_call({:add_widget, spec}, _from, state) do
+    start_status = Engine.WidgetSupervisor.add_widget(spec)
     {:reply, start_status, state}
   end
 
