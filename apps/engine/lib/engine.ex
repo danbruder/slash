@@ -10,7 +10,9 @@ defmodule Engine do
   def init(args) do
     {:ok,
      %{
-       grid: nil
+       grid: nil,
+       widgets: [
+       ]
      }}
   end
 

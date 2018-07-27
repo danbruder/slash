@@ -8,6 +8,7 @@ use Mix.Config
 # configure all applications here, we prefer to delegate
 # back to each application for organization purposes.
 import_config "../apps/*/config/config.exs"
+config :wunderground, api_key: "d832db8ea2f6b9df"
 
 # Sample configuration (overrides the imported configuration above):
 #

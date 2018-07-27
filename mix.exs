@@ -5,6 +5,7 @@ defmodule Slash.MixProject do
     [
       apps_path: "apps",
       start_permanent: Mix.env() == :prod,
+      test_coverage: [tool: Coverex.Task],
       deps: deps()
     ]
   end
@@ -15,6 +16,6 @@ defmodule Slash.MixProject do
   #
   # Run "mix help deps" for examples and options.
   defp deps do
-    []
+    [{:coverex, "~> 1.4.10", only: :test}]
   end
 end

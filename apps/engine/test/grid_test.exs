@@ -13,7 +13,4 @@ defmodule GridTest do
     assert grid.px_spot_height == 200
   end
 
-  test "Engine.Grid.validate_placement/3 returns if placement is valid" do
-    assert false == true
-  end
 end
